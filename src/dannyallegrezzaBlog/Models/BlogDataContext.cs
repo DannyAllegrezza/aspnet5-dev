@@ -15,6 +15,17 @@ namespace dannyallegrezzaBlog.Models
             Database.EnsureCreated();
         }
 
+        public IQueryable<ArchivedPostSummary> GetArchivedPosts()
+        {
+            return Posts.GroupBy(x => new { x.PostedDate.Year, x.PostedDate.Month })
+                    .Select(group => new ArchivedPostSummary
+                    {
+                        Count = group.Count(),
+                        Year = group.Key.Year,
+                        Month = group.Key.Month,
+                    });
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
