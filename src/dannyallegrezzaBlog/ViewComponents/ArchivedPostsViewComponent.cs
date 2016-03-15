@@ -12,10 +12,12 @@ namespace dannyallegrezzaBlog.ViewComponents
     public class ArchivedPostsViewComponent : ViewComponent
     {
         private readonly BlogDataContext _db;
+
         public ArchivedPostsViewComponent(dannyallegrezzaBlog.Models.BlogDataContext db)
         {
             _db = db;
         }
+
         public IViewComponentResult Invoke()
         {
             var archivedPosts = _db.GetArchivedPosts().ToArray();
