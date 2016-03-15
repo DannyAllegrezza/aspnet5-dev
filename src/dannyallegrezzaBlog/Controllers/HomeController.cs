@@ -40,5 +40,15 @@ namespace dannyallegrezzaBlog.Controllers
         {
             return "hello, mr. " + id.ToString();
         }
+
+        public IActionResult CauseAnError()
+        {
+            throw new Exception("Error! Big time error!");
+        }
+
+        public IActionResult Error()
+        {
+            return View();
+        }
     }
 }

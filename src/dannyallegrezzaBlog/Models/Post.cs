@@ -9,6 +9,8 @@ namespace dannyallegrezzaBlog.Models
     public class Post
     {
         // Properties of the Post Model 
+        public long Id { get; set; }    // Primary key for EF
+
         [Required]
         [StringLength (100, MinimumLength = 5, ErrorMessage = "Title must be at least 5 Characters!")]
         [Display(Name = "Blog Post Title")]

@@ -11,24 +11,19 @@ namespace dannyallegrezzaBlog.Controllers
 {
     public class PostsController : Controller
     {
-        // GET: /<controller>/
-        public IActionResult Index()
+        //Properties
+        readonly BlogDataContext _dataContext;
+
+        // Overloaded Constructor: forces a BlogDataContext, which is a dependency, to be injected into the constructor
+        public PostsController(BlogDataContext dataContext)
         {
-            return View();
+            _dataContext = dataContext;
         }
 
-        // POST: /Post/Create
-        [HttpPost]
-        public IActionResult Create(Post post)
+        //********************* CLASS METHODS *************************//
+        // GET: /Posts/
+        public IActionResult Index()
         {
-            if (ModelState.IsValid)
-            {
-                return View(post);
-            }
-
-            post.PostedDate = DateTime.Now;
-            post.Author = User.Identity.Name;
-
             return View();
         }
 
@@ -39,24 +34,30 @@ namespace dannyallegrezzaBlog.Controllers
             return View();
         }
 
+        // GET: /Posts/Post/<id>
+        [HttpGet]
         public IActionResult Post(long id)
         {
-            var post = new Post();
-            post.SetDescription("This is a description!");
-            post.Title = "Hello World - MY title";
-            post.Author = "Dan Allegrezza";
-            post.PostedDate = DateTime.Now;
-            post.Body = "As the body of this blog post, I command you give me attention!";
-
-            // Sample: Use the ViewBag to pass in Data to the View
-            ViewBag.Title = "A brand new Post!";
-            ViewBag.Author = "Danny Allegrezza";
-            ViewBag.PostedOn = DateTime.Now;
-            ViewBag.Body = "This is my first blog post. I hope you enjoy ;) ";
-
+            var post = _dataContext.Posts.SingleOrDefault(x => x.Id == id);
             return View(post);
         }
 
+        // POST: /Posts/Create
+        [HttpPost]
+        public async Task<IActionResult> Create(Post post)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(post);
+            }
 
+            post.PostedDate = DateTime.Now;
+            post.Author = User.Identity.Name;
+
+            _dataContext.Posts.Add(post); // step 1: First, tell DataContext everything you want to do
+            await _dataContext.SaveChangesAsync(); // step 2: Tell the DataContext to execute whatever we asked for
+
+            return RedirectToAction("Post", new { id = post.Id });
+        }
     }
 }
