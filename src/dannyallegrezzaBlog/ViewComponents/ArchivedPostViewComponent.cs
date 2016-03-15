@@ -9,5 +9,9 @@ namespace dannyallegrezzaBlog.ViewComponents
     [ViewComponent(Name = "ArchivedPost")]
     public class ArchivedPostViewComponent : ViewComponent
     {
+        public IViewComponentResult Invoke()
+        {
+            return View();
+        }
     }
 }
