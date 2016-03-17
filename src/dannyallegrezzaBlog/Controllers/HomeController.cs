@@ -11,26 +11,33 @@ namespace dannyallegrezzaBlog.Controllers
 {
     public class HomeController : Controller
     {
-        // GET: /Home/
-        public IActionResult Index()
+        private readonly BlogDataContext _db;
+
+        public HomeController(BlogDataContext db)
         {
-            Array posts = new[]
-            {
-                new Post
-                {
-                    Title = "Blog Post 1",
-                    PostedDate = DateTime.Now,
-                    Author = "Danny A",
-                    Body = "Blog Post numero uno!"
-                },
-                new Post
-                {
-                    Title = "Blog Post 2",
-                    PostedDate = DateTime.Now,
-                    Author = "Dannyyyy Ayeee",
-                    Body = "Blog Post numero dos!"
-                }
-            };
+            _db = db;
+        }
+        // GET: /Home/
+        public IActionResult Index(int page = 0)
+        {
+            int pageSize = 3;                   // Number of Pages
+            int skip = page * pageSize;         // Skip Count
+
+            var posts = _db.Posts
+                            .OrderByDescending(x => x.PostedDate)
+                            .Skip(skip)
+                            .Take(pageSize)
+                            .ToArray();
+
+            var totalPosts = _db.Posts.Count();
+            var totalPages = totalPosts / pageSize;
+            var previousPage = page - 1;
+            var nextPage = page + 1;
+
+            ViewBag.PreviousPage = previousPage;
+            ViewBag.HasPreviousPage = previousPage >= 0;
+            ViewBag.NextPage = nextPage;
+            ViewBag.HasNextPage = nextPage < totalPages;
 
             return View(posts);
         }

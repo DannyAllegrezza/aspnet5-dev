@@ -10,10 +10,16 @@
     @Html.Partial("_Post", post) // Accepts a second param - for the model
 }
 
-<nav class="hide">
+<nav>
     <ul class="pager">
-        <li><a href="#">Previous</a></li>
-        <li><a href="#">Next</a></li>
+        @if (ViewBag.HasPreviousPage == true)
+        {
+            <li><a href="@Url.Action("Index", new { page = ViewBag.PreviousPage })">Previous</a></li>
+        }
+        @if (ViewBag.HasNextPage == true)
+        {
+            <li><a href="@Url.Action("Index", new { page = ViewBag.NextPage })">Next</a></li>
+        }
     </ul>
 </nav>
 
