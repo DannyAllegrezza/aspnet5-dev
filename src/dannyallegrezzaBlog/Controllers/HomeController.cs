@@ -39,6 +39,12 @@ namespace dannyallegrezzaBlog.Controllers
             ViewBag.NextPage = nextPage;
             ViewBag.HasNextPage = nextPage < totalPages;
 
+            // Check to see if incoming request is an AJAX request - if so, call the partial View Method
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            {
+                return PartialView(posts);
+            }
+
             return View(posts);
         }
 
