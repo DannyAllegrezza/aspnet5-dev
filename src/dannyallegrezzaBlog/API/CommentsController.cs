@@ -2,23 +2,33 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using dannyallegrezzaBlog.Models;
 using Microsoft.AspNet.Mvc;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace dannyallegrezzaBlog.API
 {
-    [Route("api/[controller]")]
+    [Route("api/posts/{postId:long}/comments")]
     public class CommentsController : Controller
     {
-        // GET: api/values
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private readonly BlogDataContext _db;
+
+        public CommentsController(dannyallegrezzaBlog.Models.BlogDataContext db)
         {
-            return new string[] { "value1", "value2" };
+            _db = db;
+        }
+
+        // GET: api/values
+        // api/comments
+        [HttpGet]
+        public IQueryable<Comment> Get(long postId)
+        {
+            return _db.Comments.Where(x => x.PostId == postId);
         }
 
         // GET api/values/5
+        // api/comments/[int]
         [HttpGet("{id}")]
         public string Get(int id)
         {
@@ -27,8 +37,16 @@ namespace dannyallegrezzaBlog.API
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public async Task<Comment> Post(long postId, [FromBody]Comment comment)
         {
+            comment.PostId = postId;
+            comment.Author = User.Identity.Name;
+            comment.PostedDate = DateTime.Now;
+
+            _db.Comments.Add(comment);
+            await _db.SaveChangesAsync();
+
+            return comment;
         }
 
         // PUT api/values/5
