@@ -1,15 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNet.Builder;
+﻿using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
-using Microsoft.AspNet.Http;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Framework.Configuration.Ini;
-using Microsoft.Framework.ConfigurationModel;
-using Microsoft.Framework.Configuration.Json;
-using Microsoft.Extensions.Configuration;
 
 namespace dannyallegrezzaBlog
 {
@@ -32,6 +23,7 @@ namespace dannyallegrezzaBlog
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app)
         {
+
             /*
             var config = new Configuration();
             // Environment Variables 
@@ -48,6 +40,13 @@ namespace dannyallegrezzaBlog
             // Production Debug/Error Handling Diagnostics
             app.UseExceptionHandler("/Home/Error"); // Custom error handler. Go to /Home Controller and "Error" action. 
             */
+
+
+            //var context = app.ApplicationServices.GetService<Models.BlogDataContext>();
+            //context.Database.EnsureDeleted();
+            //System.Threading.Thread.Sleep(2000);
+            //context.Database.EnsureCreated();
+
 
             app.UseDeveloperExceptionPage(); // Shows the Developer Error Page - really helpful
             app.UseRuntimeInfoPage(); // Accessed via "/RunTimeInfo" ex: "http://localhost:50079/RunTimeInfo". Shows all packages installed, assembly version, etc.
