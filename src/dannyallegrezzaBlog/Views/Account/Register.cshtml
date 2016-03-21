@@ -1,0 +1,36 @@
+﻿@addTagHelper "*, Microsoft.AspNet.Mvc.TagHelpers"
+@model dannyallegrezzaBlog.Models.Account.RegisterViewModel
+
+<h2>New User Registration Form</h2>
+
+@* Error Validation Area *@
+<div asp-validation-summary="ValidationSummary.All" class="input-validation-error"></div>
+
+@* Begin Form *@
+<form role="form" asp-action="Register">
+    @* Email Address Input *@
+    <div class="form-group">
+        <label asp-for="EmailAddress"></label>
+        <input type="email" asp-for="EmailAddress" class="form-control" />
+        <span asp-validation-for="EmailAddress" class="field-validation-error"></span>
+    </div>
+
+    @* Password Input *@
+    <div class="form-group">
+        <label asp-for="Password"></label>
+        <input type="password" asp-for="Password" class="form-control" />
+        <span asp-validation-for="Password" class="field-validation-error"></span>
+    </div>
+
+    @* Confirm Password *@
+    <div class="form-group">
+        <label asp-for="ConfirmPassword"></label>
+        <input type="password" asp-for="ConfirmPassword" class="form-control" />
+        <span asp-validation-for="ConfirmPassword" class="field-validation-error"></span>
+    </div>
+
+    @* Register Button *@
+    <div>
+        <button type="submit" class="btn btn-primary">Create New User!</button>
+    </div>
+</form>

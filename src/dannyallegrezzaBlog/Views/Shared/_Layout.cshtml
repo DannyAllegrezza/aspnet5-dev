@@ -54,6 +54,23 @@
                     @Component.Invoke("ArchivedPosts")
                  
                 </div>
+
+                <div class="sidebar-module">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        using(Html.BeginForm("Logout", "Account"))
+                        {
+                            <p>Hello @User.Identity.Name</p>
+                            <button class="btn-link" type="submit">Logout</button>
+                        }
+                    }
+                    else
+                    {
+                        <p>Not Logged In</p>
+                        <p>@Html.ActionLink("Login", "Login", "Account")</p>
+
+                    }
+                </div>
             </div><!-- /.blog-sidebar -->
 
         </div><!-- /.row -->

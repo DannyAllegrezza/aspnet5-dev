@@ -1,0 +1,51 @@
+﻿@addTagHelper "*, Microsoft.AspNet.Mvc.TagHelpers"
+@model dannyallegrezzaBlog.Models.Account.LoginViewModel
+
+<h2>Login to your Account</h2>
+
+@* Error Validation Area *@
+<div asp-validation-summary="ValidationSummary.All" class="input-validation-error"></div>
+
+@* Begin Form *@
+<form role="form" asp-action="Login">
+    @* Email Address Input *@
+    <div class="form-group">
+        <label asp-for="EmailAddress"></label>
+        <input type="email" asp-for="EmailAddress" class="form-control" />
+        <span asp-validation-for="EmailAddress" class="field-validation-error"></span>
+    </div>
+
+    @* Password Input *@
+    <div class="form-group">
+        <label asp-for="Password"></label>
+        <input type="password" asp-for="Password" class="form-control" />
+        <span asp-validation-for="Password" class="field-validation-error"></span>
+    </div>
+
+    @* Confirm Password *@
+    <div class="form-group">
+        <label asp-for="ConfirmPassword"></label>
+        <input type="password" asp-for="ConfirmPassword" class="form-control" />
+        <span asp-validation-for="ConfirmPassword" class="field-validation-error"></span>
+    </div>
+
+    @* Remember Me Option *@
+    <div class="form-group">
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" asp-for="RememberMe"/>Remember Me
+            </label>
+        </div>
+    </div>
+
+    @* New User Registration Redirect *@
+    <div class="form-group">
+        <label>Not Registered?</label>
+        <a asp-action="Register">Create a new account</a>
+    </div>
+
+    @* Login Button *@
+    <div>
+        <button type="submit" class="btn btn-primary">Login!</button>
+    </div>
+</form>

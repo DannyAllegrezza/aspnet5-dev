@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Data.Entity;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -28,6 +29,10 @@ namespace dannyallegrezzaBlog
                     AddSqlServer().
                     AddDbContext<Models.Identity.IdentityDataContext>(dbConfig =>
                     dbConfig.UseSqlServer(identityConnectionString));
+
+
+            services.AddIdentity<Models.Identity.ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<Models.Identity.IdentityDataContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
