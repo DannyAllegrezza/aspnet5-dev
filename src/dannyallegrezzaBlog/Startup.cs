@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
+using Microsoft.Data.Entity;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace dannyallegrezzaBlog
@@ -16,8 +17,17 @@ namespace dannyallegrezzaBlog
             // Use AddSingleton to create 1 instance for the lifetime of the app
             // Use AddScoped so that we create one instance for every web request. Cleans up once the request is over.
             services.AddScoped<dannyallegrezzaBlog.Models.BlogDataContext>();
+            services.AddScoped<dannyallegrezzaBlog.Models.Identity.ApplicationUser>();
             services.AddTransient<dannyallegrezzaBlog.Models.FormattingService>();
 
+            string identityConnectionString =
+                "Server=(LocalDb)\\MSSQLLocalDb;Database=AspNetBlog_Identity";
+
+            // Defines the connection string for the datacontext
+            services.AddEntityFramework().
+                    AddSqlServer().
+                    AddDbContext<Models.Identity.IdentityDataContext>(dbConfig =>
+                    dbConfig.UseSqlServer(identityConnectionString));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,7 +57,7 @@ namespace dannyallegrezzaBlog
             //System.Threading.Thread.Sleep(2000);
             //context.Database.EnsureCreated();
 
-
+            app.UseIdentity(); // Registers the Identity Service middleware so 
             app.UseDeveloperExceptionPage(); // Shows the Developer Error Page - really helpful
             app.UseRuntimeInfoPage(); // Accessed via "/RunTimeInfo" ex: "http://localhost:50079/RunTimeInfo". Shows all packages installed, assembly version, etc.
 
