@@ -70,6 +70,7 @@ namespace dannyallegrezzaBlog.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel login, string returnUrl = null)
         {
             if (!ModelState.IsValid)
